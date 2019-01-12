@@ -1,0 +1,7 @@
+BadWordFilterTest.MAIN = METHOD({
+
+	run : () => {
+		
+		
+	}
+});
