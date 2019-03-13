@@ -1,17 +1,28 @@
 BadWordFilter.Replace = METHOD({
 	
-	run : (text) => {
+	run : (params) => {
+		//REQUIRED: params
+		//REQUIRED: params.text
+		//REQUIRED: params.language
 		
-		EACH(BadWordFilter.DB.split('\n'), (badWord) => {
+		let text = params.text;
+		let language = params.language;
+		
+		let db = BadWordFilter.DB[language];
+		
+		if (db !== undefined) {
 			
-			let newText = '';
-
-			REPEAT(badWord.length, () => {
-				newText += '♡';
+			EACH(db, (badWord) => {
+				
+				let newText = '';
+	
+				REPEAT(language === 'en' ? Math.ceil(badWord.length / 2) : badWord.length, () => {
+					newText += '♡';
+				});
+				
+				text = text.replace(badWord, newText);
 			});
-			
-			text = text.replace(badWord, newText);
-		});
+		}
 		
 		return text;
 	}

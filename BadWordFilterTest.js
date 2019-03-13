@@ -12,6 +12,6 @@ BOOT({
 	
 	NODE_CONFIG : {
 		// CPU 클러스터링 기능을 사용하지 않습니다.
-		isNotUsingCPUClustering : true
+		isSingleCoreMode : true
 	}
 });
