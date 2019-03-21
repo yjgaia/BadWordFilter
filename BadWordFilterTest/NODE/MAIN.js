@@ -26,5 +26,30 @@ BadWordFilterTest.MAIN = METHOD({
 			text : 'WhatTheFuck',
 			language : 'en'
 		}));
+		
+		console.log(BadWordFilter.Check({
+			text : '아오 시발',
+			language : 'ko'
+		}));
+		
+		console.log(BadWordFilter.Check({
+			text : '아오 시@발',
+			language : 'ko'
+		}));
+		
+		console.log(BadWordFilter.Check({
+			text : '기영씨 발냄새',
+			language : 'ko'
+		}));
+		
+		console.log(BadWordFilter.Check({
+			text : 'What the fuck',
+			language : 'en'
+		}));
+		
+		console.log(BadWordFilter.Check({
+			text : 'WhatTheFuck',
+			language : 'en'
+		}));
 	}
 });

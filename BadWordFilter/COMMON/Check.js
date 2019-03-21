@@ -1,7 +1,7 @@
 /*
- * 욕설을 하트로 변경합니다.
+ * 텍스트에 욕설이 있는지 확인합니다.
  */
-BadWordFilter.Replace = METHOD({
+BadWordFilter.Check = METHOD({
 	
 	run : (params) => {
 		//REQUIRED: params
@@ -15,7 +15,9 @@ BadWordFilter.Replace = METHOD({
 		
 		if (db !== undefined) {
 			
-			let check = (badWord, newWord) => {
+			let isBadWordExists = false;
+			
+			let check = (badWord) => {
 				
 				for (let i = 0; i < text.length; i += 1) {
 					
@@ -66,7 +68,8 @@ BadWordFilter.Replace = METHOD({
 								(start === 0 || text[start - 1] === ' ' || (text[start - 1] === text[start - 1].toLowerCase() && text[start] === text[start].toUpperCase())) &&
 								(last + 1 === text.length || text[last + 1] === ' ' || (text[last] === text[last].toLowerCase() && text[last + 1] === text[last + 1].toUpperCase()))
 							) {
-								text = text.substring(0, start) + newWord + text.substring(last + 1);
+								isBadWordExists = true;
+								return;
 							}
 						}
 						
@@ -78,12 +81,14 @@ BadWordFilter.Replace = METHOD({
 									(last + 1 === text.length || text[last + 1] === ' ')
 								)
 							) {
-								text = text.substring(0, start) + newWord + text.substring(last + 1);
+								isBadWordExists = true;
+								return;
 							}
 						}
 						
 						else {
-							text = text.substring(0, start) + newWord + text.substring(last + 1);
+							isBadWordExists = true;
+							return;
 						}
 					}
 				}
@@ -91,22 +96,21 @@ BadWordFilter.Replace = METHOD({
 			
 			EACH(db, (badWord) => {
 				
-				let newWord = '';
-				
-				// 영어의 경우 절반 길이로 하트 표시
-				REPEAT(language === 'en' ? Math.ceil(badWord.length / 2) : badWord.length, () => {
-					newWord += '♡';
-				});
-				
-				check(badWord, newWord);
+				check(badWord);
 				
 				// 영어에서는 i를 !로 쓰는 경우가 있음
-				if (language === 'en' && badWord.indexOf('i') !== -1) {
-					check(badWord.replace(/i/g, '!'), newWord);
+				if (isBadWordExists !== true && language === 'en' && badWord.indexOf('i') !== -1) {
+					check(badWord.replace(/i/g, '!'));
+				}
+				
+				if (isBadWordExists === true) {
+					return false;
 				}
 			});
+			
+			return isBadWordExists;
 		}
 		
-		return text;
+		return false;
 	}
 });
