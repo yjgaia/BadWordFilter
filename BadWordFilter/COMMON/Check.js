@@ -13,7 +13,7 @@ BadWordFilter.Check = METHOD({
 		
 		let db = BadWordFilter.DB[language];
 		
-		if (db !== undefined) {
+		if (text !== undefined && text !== TO_DELETE && db !== undefined) {
 			
 			let isBadWordExists = false;
 			
