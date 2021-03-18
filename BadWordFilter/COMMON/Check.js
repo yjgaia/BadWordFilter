@@ -99,8 +99,8 @@ BadWordFilter.Check = METHOD({
 				check(badWord);
 				
 				// 영어에서는 i를 !로 쓰는 경우가 있음
-				if (isBadWordExists !== true && language === 'en' && badWord.indexOf('i') !== -1) {
-					check(badWord.replace(/i/g, '!'));
+				if (isBadWordExists !== true && language === 'en' && badWord.indexOf('!') !== -1) {
+					check(badWord.replace(/!/g, 'i'));
 				}
 				
 				if (isBadWordExists === true) {
